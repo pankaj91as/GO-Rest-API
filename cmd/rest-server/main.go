@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
+	"go-rest-api/api/controller"
 	"go-rest-api/server"
-	"net/http"
 
 	"github.com/gorilla/mux"
 )
@@ -11,13 +11,10 @@ import (
 func main() {
 	fmt.Println("✨ Starting rest api server...⌛")
 
+	rc := controller.NewRestController()
+
 	r := mux.NewRouter()
-	r.HandleFunc("/ping", PingHandler)
+	r.HandleFunc("/ping", rc.PingHandler)
 
 	server.Start(r)
-}
-
-func PingHandler(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, "pong")
 }
