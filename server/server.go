@@ -19,7 +19,7 @@ func Start(r *mux.Router) {
 	flag.Parse()
 
 	srv := &http.Server{
-		Addr: "0.0.0.0:8080",
+		Addr: os.Getenv("APP_HOST") + ":" + os.Getenv("APP_PORT"),
 		// Good practice to set timeouts to avoid Slowloris attacks.
 		WriteTimeout: time.Second * 15,
 		ReadTimeout:  time.Second * 15,
@@ -29,7 +29,7 @@ func Start(r *mux.Router) {
 
 	// Run our server in a goroutine so that it doesn't block.
 	go func() {
-		fmt.Println("📡 rest api server ✅ & 🏃 successfully...")
+		fmt.Printf(fmt.Sprintf("📡 rest api server ✅ & 🏃 successfully on: http://%s\n", srv.Addr))
 
 		if err := srv.ListenAndServe(); err != nil {
 			log.Fatalln(err)
