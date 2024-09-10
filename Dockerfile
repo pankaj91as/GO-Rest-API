@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 
 RUN apk update && apk add make
 
-COPY ./build .
+COPY ./build ./build
 COPY ./.env .
 COPY ./Makefile .
 
