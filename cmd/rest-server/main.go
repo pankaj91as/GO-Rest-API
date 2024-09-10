@@ -8,6 +8,10 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// rest-server main.go is cmd utility to start rest api server.
+// rest api we have developed here using gorilla mux liberary
+// in this default /ping endpoint provided to validate server
+// is up and running (health check endpoint)
 func main() {
 	fmt.Println("✨ Starting rest api server...⌛")
 
