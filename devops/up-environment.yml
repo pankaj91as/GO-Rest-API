@@ -1,0 +1,75 @@
+services:
+  ansible:
+    container_name: "Ansible"
+    image: ansible_server:latest
+    tty: true
+    stdin_open: true
+    build:
+      context: ./
+    networks:
+      ansible:
+        ipv4_address: 10.5.0.2
+
+  jenkins:
+    container_name: "Jenkins"
+    image: jenkins_server:latest
+    restart: on-failure
+    privileged: true
+    user: root
+    volumes:
+      - ~/jenkins_home:/var/jenkins_home
+    networks:
+      ansible:
+        ipv4_address: 10.5.0.3
+    ports:
+      - 8080:8080
+      - 50000:50000
+    depends_on:
+      - ansible
+
+  vhost-one:
+    container_name: "Virtual_Host_1"
+    image: k8hosts:latest
+    restart: on-failure
+    networks:
+      ansible:
+        ipv4_address: 10.5.0.4
+    depends_on:
+      - jenkins
+
+  vhost-two:
+    container_name: "Virtual_Host_2"
+    image: k8hosts:latest
+    restart: on-failure
+    networks:
+      ansible:
+        ipv4_address: 10.5.0.5
+    depends_on:
+      - vhost-one
+
+  vhost-three:
+    container_name: "Virtual_Host_3"
+    image: k8hosts:latest
+    restart: on-failure
+    networks:
+      ansible:
+        ipv4_address: 10.5.0.6
+    depends_on:
+      - vhost-two
+
+  vhost-four:
+    container_name: "Virtual_Host_4"
+    image: k8hosts:latest
+    restart: on-failure
+    networks:
+      ansible:
+        ipv4_address: 10.5.0.7
+    depends_on:
+      - vhost-three
+
+networks:
+  ansible:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.0.0/24
