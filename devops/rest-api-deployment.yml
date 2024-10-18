@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: go-rest-api
-        image: docker.io/library/go-rest-api:v0.0.01
+        image: go-rest-api:v0.0.01
         ports:
         - containerPort: 8080
 

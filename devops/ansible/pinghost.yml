@@ -1,0 +1,11 @@
+- name: My first play
+  hosts: appserver
+  vars:
+    ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+  tasks:
+    - name: Ping my hosts
+      ansible.builtin.ping:
+
+    - name: Print message
+      ansible.builtin.debug:
+        msg: Hello world
