@@ -9,7 +9,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout code from Development branch
-                git branch: 'Development', url: 'https://github.com/pankaj91as/GO-Rest-API.git'
+                git branch: 'main', url: 'https://github.com/pankaj91as/GO-Rest-API.git'
             }
         }
         stage('Build Docker Image') {
