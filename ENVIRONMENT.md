@@ -26,6 +26,13 @@ $ sudo add-apt-repository --yes --update ppa:ansible/ansible
 $ sudo apt install ansible
 ```
 
+### Generate SSH Key
+```
+ssh-keygen -t rsa
+multipass exec kmaster -- bash -c "mkdir -p ~/.ssh && chmod 700 ~/.ssh"
+multipass exec kmaster -- bash -c "echo '$(cat ~/.ssh/id_rsa.pub)' >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys"
+```
+
 ## Jenkins Installation
 ```
 sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \

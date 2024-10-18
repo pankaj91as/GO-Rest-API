@@ -1,5 +1,5 @@
 - name: My first play
-  hosts: k8hosts
+  hosts: appserver
   vars:
     ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
   tasks:
