@@ -1,2 +1,2 @@
 # GO-Rest-API
-Golang project directory structure for REST api
+Golang project directory structure for REST API
