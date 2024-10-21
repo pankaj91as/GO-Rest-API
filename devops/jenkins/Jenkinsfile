@@ -9,7 +9,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout code from Development branch
-                git branch: 'main', url: 'https://github.com/pankaj91as/GO-Rest-API.git'
+                git branch: 'Development', url: 'https://github.com/pankaj91as/GO-Rest-API.git'
             }
         }
         stage('Build Docker Image') {
@@ -30,6 +30,11 @@ pipeline {
                     // Push Docker image to DockerHub
                     sh 'docker push ${DOCKER_IMAGE}:${BUILD_NUMBER}'
                 }
+            }
+        }
+        stage ('Start Ansible JOB') {
+            steps {
+                build job: 'Ansible'
             }
         }
     }
