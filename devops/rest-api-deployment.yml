@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: go-rest-api
-        image: go-rest-api:v0.0.01
+        image: pankaj91as/go-rest-api:latest
         ports:
         - containerPort: 8080
 
@@ -32,9 +32,4 @@ spec:
     - protocol: TCP
       port: 8080
       targetPort: 8080
-  clusterIP: 10.96.1.1
   type: LoadBalancer
-status:
-  loadBalancer:
-    ingress:
-    - ip: 192.168.1.11

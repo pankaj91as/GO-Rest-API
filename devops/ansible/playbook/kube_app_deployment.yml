@@ -1,0 +1,45 @@
+- name: GO Rest API Deployment
+  hosts: proxy
+  tasks:
+    - name: Create a Deployment
+      kubernetes.core.k8s:
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: go-rest-api
+            labels:
+              app: go-rest-api
+            namespace: go-rest-api
+          spec:
+            replicas: 3
+            selector:
+              matchLabels:
+                app: go-rest-api
+            template:
+              metadata:
+                labels:
+                  app: go-rest-api
+              spec:
+                containers:
+                - name: go-rest-api
+                  image: pankaj91as/go-rest-api:latest
+                  ports:
+                  - containerPort: 8080
+
+    - name: Expose Deployment as a Service
+      kubernetes.core.k8s:
+        definition:
+          apiVersion: v1
+          kind: Service
+          metadata:
+            name: go-rest-api
+            namespace: go-rest-api
+          spec:
+            selector:
+              app: go-rest-api
+            ports:
+              - protocol: TCP
+                port: 8080
+                targetPort: 8080
+            type: LoadBalancer
