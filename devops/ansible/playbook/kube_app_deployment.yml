@@ -1,5 +1,6 @@
 - name: GO Rest API Deployment
   hosts: proxy
+  become: yes
   tasks:
     - name: Create a Deployment
       kubernetes.core.k8s:
@@ -12,7 +13,7 @@
               app: go-rest-api
             namespace: default
           spec:
-            replicas: 3
+            replicas: 4
             selector:
               matchLabels:
                 app: go-rest-api
