@@ -1,3 +1,4 @@
+---
 - name: Configure Join Commands on Master Node
   hosts: master
   become: yes
@@ -6,7 +7,7 @@
       shell: kubeadm token create --print-join-command
       register: join_command_raw
 
-    - name: Set Join Command
+    - name: Set Join Command as fact
       set_fact:
         join_command: "{{ join_command_raw.stdout_lines[0] }}"
 
@@ -22,4 +23,3 @@
       args:
         chdir: /home/ubuntu
         creates: node_joined.log
-        

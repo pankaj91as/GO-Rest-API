@@ -10,9 +10,9 @@
             name: go-rest-api
             labels:
               app: go-rest-api
-            namespace: go-rest-api
+            namespace: default
           spec:
-            replicas: 2
+            replicas: 4
             selector:
               matchLabels:
                 app: go-rest-api
@@ -34,7 +34,7 @@
           kind: Service
           metadata:
             name: go-rest-api
-            namespace: go-rest-api
+            namespace: default
           spec:
             selector:
               app: go-rest-api
