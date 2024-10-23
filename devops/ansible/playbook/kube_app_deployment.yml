@@ -4,6 +4,7 @@
   tasks:
     - name: Create a Deployment
       kubernetes.core.k8s:
+        kubeconfig: /home/ubuntu/.kube/config
         definition:
           apiVersion: apps/v1
           kind: Deployment

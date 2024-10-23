@@ -18,6 +18,20 @@
         path: /etc/fstab
         regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
         replace: '# \1'
+    
+    - name: Ensure python3-pip is installed
+      apt:
+        name: python3-pip
+        state: present
+
+    - name: Install required Python libraries (kubernetes)
+      pip:
+        name: kubernetes
+        state: present
+        executable: pip3
+
+    - name: Reboot
+      reboot:
 
     - name: Create an empty file for the containerd module
       copy:
@@ -137,17 +151,6 @@
       sysctl:
         name: net.ipv4.ip_forward
         value: 1
-    
-    - name: Ensure python3-pip is installed
-      apt:
-        name: python3-pip
-        state: present
-
-    - name: Install required Python libraries (kubernetes)
-      pip:
-        name: kubernetes
-        state: present
-        executable: pip3
 
     - name: Reboot
       reboot:

@@ -2,6 +2,9 @@
 - name: Configure Join Commands on Master Node
   hosts: master
   become: yes
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+    KUBERNETES_MASTER: https://172.31.21.39:6443
   tasks:
     - name: Retrieve Join Command
       shell: kubeadm token create --print-join-command
