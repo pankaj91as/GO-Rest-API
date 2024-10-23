@@ -1,0 +1,12 @@
+---
+- name: Gather Kubernetes resources information
+  hosts: proxy # Ensure this is the correct group from your inventory file
+  become: yes
+  tasks:
+    - name: Run kubectl to get deployments, pods, and services
+      command: kubectl get deployments,pods,services
+      register: kubectl_output
+
+    - name: Display kubectl output
+      debug:
+        var: kubectl_output.stdout
