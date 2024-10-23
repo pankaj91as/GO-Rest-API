@@ -3,13 +3,32 @@ pipeline {
     environment {
         DOCKER_IMAGE = "pankaj91as/go-rest-api"
         DOCKER_REGISTRY_CREDENTIALS = 'dockerhub_credentials'
-        BUILD_NUMBER = 'latest'
     }
     stages {
         stage('Checkout') {
             steps {
                 // Checkout code from Development branch
-                git branch: 'Development', url: 'https://github.com/pankaj91as/GO-Rest-API.git'
+                git branch: 'main', url: 'https://github.com/pankaj91as/GO-Rest-API.git'
+            }
+        }
+        stage('Load Build Number from .env') {
+            steps {
+                script {
+                    // Load the build number from the .env file
+                    def envFile = readFile('.env')
+                    def props = envFile.split('\n').collectEntries { line ->
+                        line.split('=').with { [(it[0]): it[1]] }
+                    }
+                    env.BUILD_NUMBER = props.APP_VERSION
+                }
+            }
+        }
+        stage('Build Application Image') {
+            steps {
+                script {
+                    // Build Application image
+                    sh 'export PATH=$PATH:/usr/local/go/bin && make build-rest-server'
+                }
             }
         }
         stage('Build Docker Image') {
@@ -32,9 +51,14 @@ pipeline {
                 }
             }
         }
-        stage ('Start Ansible JOB') {
+        stage('Start Ansible JOB') {
             steps {
-                build job: 'Ansible'
+                script {
+                    // Pass BUILD_NUMBER to Ansible playbook as an extra variable
+                    build job: 'Ansible', parameters: [
+                        string(name: 'BUILD_NUMBER', value: "${BUILD_NUMBER}")
+                    ]
+                }
             }
         }
     }
