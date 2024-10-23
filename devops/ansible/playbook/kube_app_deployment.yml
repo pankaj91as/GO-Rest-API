@@ -1,6 +1,8 @@
 ---
 - name: GO Rest API Deployment
   hosts: proxy
+  vars:
+    build_number: "{{ BUILD_NUMBER }}"
   tasks:
     - name: Create a Deployment
       kubernetes.core.k8s:
@@ -29,7 +31,7 @@
               spec:
                 containers:
                 - name: go-rest-api
-                  image: pankaj91as/go-rest-api:latest
+                  image: pankaj91as/go-rest-api:{{ build_number }}
                   imagePullPolicy: Always  # Ensures the latest image is always pulled
                   ports:
                   - containerPort: 8080
