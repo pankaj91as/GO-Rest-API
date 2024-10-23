@@ -15,10 +15,10 @@
   become: yes
   tasks:
     - name: Enable TCP port 6443 (On Master) is able to connect from Worker
-      wait_for: "host=172.31.21.39 port=6443 timeout=1"
+      wait_for: "host=172.31.40.13 port=6443 timeout=1"
 
     - name: Join worker to cluster
-      shell: "{{ hostvars['172.31.21.39'].join_command }} >> node_joined.log"
+      shell: "{{ hostvars['k8smaster'].join_command }} >> node_joined.log"
       args:
         chdir: /home/ubuntu
         creates: node_joined.log
