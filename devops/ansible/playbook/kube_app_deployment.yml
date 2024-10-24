@@ -2,8 +2,15 @@
 - name: GO Rest API Deployment
   hosts: proxy
   vars:
-    build_number: "{{ BUILD_NUMBER }}"
+    app_version: "{{ APP_VERSION }}"  # Look up the environment variable
+
   tasks:
+    - name: Print all environment variables
+      debug:
+        var: vars
+    - name: Print app_version
+      debug:
+        msg: "The APP_VERSION is: {{ app_version }}"
     - name: Create a Deployment
       kubernetes.core.k8s:
         definition:
@@ -31,8 +38,8 @@
               spec:
                 containers:
                 - name: go-rest-api
-                  image: pankaj91as/go-rest-api:{{ build_number }}
-                  imagePullPolicy: Always  # Ensures the latest image is always pulled
+                  image: "pankaj91as/go-rest-api:{{ app_version }}"  # Dynamically set image tag
+                  imagePullPolicy: Always
                   ports:
                   - containerPort: 8080
 
