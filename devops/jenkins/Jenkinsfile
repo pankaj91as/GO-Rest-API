@@ -83,6 +83,8 @@ pipeline {
             steps {
                 script {
                     // Pass APP_VERSION to the Ansible playbook as an extra variable
+                    echo "Triggering Ansible job with APP_VERSION: ${APP_VERSION}"
+
                     build job: 'Ansible', parameters: [
                         string(name: 'APP_VERSION', value: "${APP_VERSION}")
                     ]

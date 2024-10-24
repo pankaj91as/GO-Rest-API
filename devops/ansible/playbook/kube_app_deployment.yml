@@ -2,12 +2,9 @@
 - name: GO Rest API Deployment
   hosts: proxy
   vars:
-    app_version: "{{ APP_VERSION }}"  # Look up the environment variable
+    app_version: "{{ lookup('env', 'APP_VERSION') }}"  # Look up the environment variable
 
   tasks:
-    - name: Print all environment variables
-      debug:
-        var: vars
     - name: Print app_version
       debug:
         msg: "The APP_VERSION is: {{ app_version }}"
